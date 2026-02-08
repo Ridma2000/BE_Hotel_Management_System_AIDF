@@ -60,7 +60,8 @@ if (process.env.NODE_ENV === "production") {
   const frontendPath = path.join(__dirname, "../../aidf-front-end/dist");
   app.use(express.static(frontendPath));
   
-  app.get("*", (req, res, next) => {
+  // Express 5 (path-to-regexp v8) requires a named wildcard for catch-all routes
+  app.get("/{*path}", (req, res, next) => {
     if (req.path.startsWith("/api")) {
       return next();
     }
